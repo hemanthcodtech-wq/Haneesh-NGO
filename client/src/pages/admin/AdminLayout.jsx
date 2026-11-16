@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { NavLink, Outlet, useNavigate } from "react-router-dom"
-import { Award, BarChart2, FileBadge, Heart, Image, LayoutDashboard, LogOut, Menu, Users, X, FileEdit, HeartHandshake, UserPlus, Megaphone, Target, IdCard, Settings, Landmark } from "lucide-react"
+import { Award, BarChart2, FileBadge, Heart, Image, LayoutDashboard, LogOut, Menu, Users, X, FileEdit, HeartHandshake, UserPlus, Megaphone, Target, IdCard, Landmark } from "lucide-react"
 import Logo from "../../components/Common/Logo"
 import { useApp } from "../../context/AppContext"
 
