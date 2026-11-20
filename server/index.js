@@ -14,9 +14,7 @@ app.use(cors({
   origin: [
     "http://localhost:3000",
     "http://localhost:5173",
-    "https://hindu-suraksha.vercel.app",
-    "https://hindusuraksha.in",
-    "https://www.hindusuraksha.in",
+    "https://haneesh-ngo-nine.vercel.app",
     /\.vercel\.app$/
   ],
   credentials: true
@@ -25,7 +23,7 @@ app.use(express.json());
 
 // Basic health check route
 app.get('/', (req, res) => {
-  res.json({ message: 'Hindu Suraksha Backend is running!' });
+  res.json({ message: 'Haneesh Backend is running nicely' });
 });
 
 // Example route to check DB connection
