@@ -47,9 +47,11 @@ router.post('/', upload.single('image'), async (req, res) => {
       imageUrl = req.file.path;
     }
 
+    const partnerType = type || 'partner';
+
     const newPartner = await sql`
-      INSERT INTO partners (name, type, website_url, image_url)
-      VALUES (${name}, ${type}, ${website_url || null}, ${imageUrl})
+      INSERT INTO partners (name, type, category, website_url, image_url, logo_url)
+      VALUES (${name}, ${partnerType}, ${partnerType}, ${website_url || null}, ${imageUrl}, ${imageUrl})
       RETURNING *
     `;
 

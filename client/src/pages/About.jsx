@@ -121,41 +121,49 @@ export default function About() {
         </div>
       </section>
 
-      {/* 3. DIRECTORS & LEADERSHIP - New Section for Nenavath Madan & Nenavath Swaroopa */}
+      {/* 3. DIRECTORS & LEADERSHIP - Founders Nenavath Madan & Nenavath Swaroopa */}
       <section className="py-16 sm:py-24 bg-[#fafbff] border-y border-[#e2e8f0]">
         <div className="page-shell px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-3xl mx-auto mb-14">
             <span className="inline-block text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#c8891f]">
-              Foundation Leadership
+              Founders &amp; Leadership
             </span>
             <h2 className="mt-2 font-heading text-2xl font-extrabold text-[#0b2545] sm:text-4xl">
-              Board of Directors
+              Meet Our Founders
             </h2>
             <p className="mt-3 text-xs leading-relaxed text-[#5a6e85] sm:text-base">
               The visionaries driving Hanish Charity Foundation with unwavering integrity, transparency, and personal commitment to social welfare.
             </p>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-2 max-w-4xl mx-auto">
+          <div className="grid gap-8 md:grid-cols-2 max-w-5xl mx-auto">
             {directors.map((dir, idx) => (
               <div
                 key={dir.name}
-                className="group relative overflow-hidden rounded-3xl border border-[#e2e8f0] bg-white p-8 sm:p-10 shadow-sm transition duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:border-[#e5a93c]"
+                className="group relative overflow-hidden rounded-3xl border border-[#e2e8f0] bg-white p-6 sm:p-8 shadow-sm transition duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:border-[#e5a93c]"
               >
-                <div className="flex items-center gap-4 mb-5">
-                  <div className={`grid size-16 place-items-center rounded-2xl ${
-                    idx === 0 ? "bg-[#fef7ea] text-[#c8891f]" : "bg-[#edf4fc] text-[#0b2545]"
-                  } shadow-sm`}>
-                    <UserCheck className="size-8" />
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 mb-5">
+                  <div className="relative shrink-0">
+                    <img
+                      src={dir.image}
+                      alt={dir.name}
+                      className="size-28 sm:size-32 rounded-2xl object-cover object-top border-2 border-[#e5a93c]/30 shadow-md group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <span className="absolute -bottom-2 -right-2 grid size-8 place-items-center rounded-xl bg-[#0b2545] text-[#fcd34d] shadow-sm">
+                      <Award className="size-4" />
+                    </span>
                   </div>
-                  <div>
+                  <div className="text-center sm:text-left">
                     <h3 className="font-heading text-2xl font-black text-[#0b2545]">
                       {dir.name}
                     </h3>
-                    <div className="mt-0.5 inline-flex items-center gap-1.5 rounded-full bg-[#fef7ea] px-3 py-0.5 text-xs font-extrabold text-[#c8891f]">
-                      <Award className="size-3" />
+                    <div className="mt-1.5 inline-flex items-center gap-1.5 rounded-full bg-[#fef7ea] px-3.5 py-1 text-xs font-black text-[#c8891f]">
+                      <Sparkles className="size-3" />
                       <span>{dir.role}</span>
+                    </div>
+                    <div className="mt-2 text-xs font-semibold text-[#5a6e85]">
+                      Hanish Charity Foundation
                     </div>
                   </div>
                 </div>
@@ -165,8 +173,13 @@ export default function About() {
                 </p>
 
                 <div className="mt-6 pt-5 border-t border-[#f1f5f9] flex items-center justify-between text-xs font-bold text-[#0b2545]">
-                  <span>Hanish Charity Foundation</span>
-                  <span className="text-[#c8891f]">Board Member</span>
+                  <span className="inline-flex items-center gap-1.5 text-[#0b2545]">
+                    <UserCheck className="size-4 text-[#c8891f]" />
+                    Verified Leadership
+                  </span>
+                  <span className="rounded-full bg-[#edf4fc] px-3 py-0.5 text-[11px] font-extrabold text-[#0b2545]">
+                    Board of Directors
+                  </span>
                 </div>
               </div>
             ))}

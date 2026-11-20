@@ -179,14 +179,14 @@ export default function VolunteerRegister() {
               <div>
                 <h2 className="font-heading text-xl font-extrabold text-primary">Application Submitted!</h2>
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                  Thank you <strong>{form.name}</strong>! Your profile has been sent to our admins for verification.
-                  Once your ID documents are approved, you will be notified via email and can login using your password.
+                  Thank you <strong>{form.name}</strong>! Your application has been submitted to the admin team for approval.
+                  Once verified and approved, you can login anytime using your email and an instant OTP.
                 </p>
               </div>
               <div className="flex gap-3 mt-2">
                 <button onClick={() => navigate("/volunteer/login")}
                   className="rounded-xl bg-teal px-6 py-2.5 text-sm font-bold text-white hover:bg-teal-dark transition">
-                  Go to Login
+                  Go to Volunteer Login
                 </button>
                 <button onClick={() => navigate("/")}
                   className="rounded-xl border border-border px-6 py-2.5 text-sm font-bold text-primary hover:bg-muted transition">

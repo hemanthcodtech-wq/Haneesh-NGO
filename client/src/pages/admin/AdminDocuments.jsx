@@ -179,7 +179,7 @@ export default function AdminDocuments() {
           <div style="margin:12px auto;display:inline-block;border-bottom:2px solid #d4af37;padding:0 30px 4px;">
             <p style="margin:0;font-size:32px;font-weight:900;color:#e65100;">${name}</p>
           </div>
-          <p style="margin:8px auto 0;max-width:540px;font-size:12px;color:#374151;line-height:1.6;font-style:italic;">In recognition and heartfelt gratitude for exemplary dedication, voluntary seva, and selfless contribution toward our community empowerment, temple preservation, and cultural protection initiatives.</p>
+          <p style="margin:8px auto 0;max-width:540px;font-size:12px;color:#374151;line-height:1.6;font-style:italic;">In recognition and heartfelt gratitude for exemplary dedication, voluntary seva, and selfless contribution toward community empowerment, social welfare, humanitarian aid, and healthcare initiatives.</p>
         </div>
 
         <div style="position:relative;z-index:2;width:100%;display:flex;justify-content:space-between;align-items:flex-end;padding:0 20px;font-family:sans-serif;">
@@ -196,10 +196,10 @@ export default function AdminDocuments() {
           </div>
 
           <div style="text-align:right;">
-            <p style="margin:0;font-size:14px;font-weight:bold;font-style:italic;color:#0d2040;font-family:Georgia,serif;">Shri Rajeshwar Sharma</p>
+            <p style="margin:0;font-size:14px;font-weight:bold;font-style:italic;color:#0d2040;font-family:Georgia,serif;">${globalSettings?.authorizedSignatoryName || "Nenavath Madan"}</p>
             <div style="width:120px;height:1px;background:#0d2040;opacity:0.4;margin:4px 0 4px auto;"></div>
             <p style="margin:0;font-size:9px;font-weight:bold;text-transform:uppercase;color:#6b7280;">Authorized Signatory</p>
-            <p style="margin:2px 0 0;font-size:8px;color:#9ca3af;">National President &bull; Trustee</p>
+            <p style="margin:2px 0 0;font-size:8px;color:#9ca3af;">${globalSettings?.authorizedSignatoryTitle || "Founder & Director"}</p>
           </div>
         </div>
       </div>
@@ -523,7 +523,7 @@ export default function AdminDocuments() {
                   </div>
 
                   <p className="mx-auto max-w-lg text-[10px] leading-relaxed text-[#374151] sm:text-xs italic">
-                    In recognition and heartfelt gratitude for exemplary dedication, voluntary seva, and selfless contribution toward our community empowerment, temple preservation, and cultural protection initiatives.
+                    In recognition and heartfelt gratitude for exemplary dedication, voluntary seva, and selfless contribution toward community empowerment, social welfare, humanitarian aid, and healthcare initiatives.
                   </p>
                 </div>
 
@@ -550,11 +550,13 @@ export default function AdminDocuments() {
                   {/* Authorized Signatory */}
                   <div className="text-right">
                     <p className="text-xs sm:text-sm font-serif italic font-bold text-[#0d2040]">
-                      Shri Rajeshwar Sharma
+                      {globalSettings?.authorizedSignatoryName || "Nenavath Madan"}
                     </p>
                     <div className="my-1 ml-auto h-px w-24 sm:w-28 bg-[#0d2040]/40" />
                     <p className="text-[8px] sm:text-[9px] font-bold uppercase tracking-wider text-[#6b7280]">Authorized Signatory</p>
-                    <p className="text-[7px] sm:text-[8px] text-[#9ca3af]">National President &bull; Trustee</p>
+                    <p className="text-[7px] sm:text-[8px] text-[#9ca3af]">
+                      {globalSettings?.authorizedSignatoryTitle || "Founder & Director"}
+                    </p>
                   </div>
                 </div>
 

@@ -8,8 +8,10 @@ import Header from "./components/Header"
 import Footer from "./components/Footer"
 import Home from "./pages/Home"
 import About from "./pages/About"
+import CausesPage from "./pages/CausesPage"
 import Programs from "./pages/Programs"
 import Campaigns from "./pages/Campaigns"
+import TestimonialsPage from "./pages/TestimonialsPage"
 import Donate from "./pages/Donate"
 import Volunteer from "./pages/Volunteer"
 import SupportUs from "./pages/SupportUs"
@@ -113,14 +115,17 @@ function PublicLayout() {
             <Route path="/youtube" element={<ResourcePage />} />
             <Route path="/achievements" element={<ResourcePage />} />
             <Route path="/events" element={<Events />} />
+            <Route path="/causes" element={<CausesPage />} />
             <Route path="/programs" element={<Programs />} />
             <Route path="/campaigns" element={<Campaigns />} />
             <Route path="/campaigns/:id" element={<CampaignDetail />} />
+            <Route path="/testimonials" element={<TestimonialsPage />} />
             <Route path="/teams" element={<Teams />} />
             <Route path="/teams/:group" element={<TeamGroup />} />
             <Route path="/support-us" element={<SupportUs />} />
             <Route path="/donate" element={<Donate />} />
-            <Route path="/volunteer" element={<Volunteer />} />
+            <Route path="/volunteer" element={<VolunteerRegister />} />
+            <Route path="/volunteer/overview" element={<Volunteer />} />
             <Route path="/volunteer/register" element={<VolunteerRegister />} />
             <Route path="/volunteer/login" element={<VolunteerLogin />} />
             <Route path="/volunteer/updates" element={<VolunteerUpdates />} />

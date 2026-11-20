@@ -116,14 +116,35 @@ export default function Volunteer() {
                   Welcome to the Movement!
                 </h4>
                 <p className="mt-3 text-sm text-[#5a6e85] max-w-md mx-auto leading-relaxed">
-                  Thank you, <strong>{formData.name}</strong>. We have received your volunteer application. Our community coordinator will connect with you soon.
+                  Thank you, <strong>{formData.name}</strong>. We have received your volunteer application. Our administration team will review your application for approval and notify you via email.
                 </p>
-                <button
-                  onClick={() => setSubmitted(false)}
-                  className="mt-7 rounded-xl bg-[#0b2545] px-7 py-3 text-xs font-bold text-white hover:bg-[#133e87] transition shadow"
-                >
-                  Submit Another Form
-                </button>
+                <div className="mt-7 flex flex-wrap justify-center gap-3">
+                  <Link
+                    to="/volunteer/login"
+                    className="rounded-xl bg-[#0b2545] px-7 py-3 text-xs font-bold text-white hover:bg-[#133e87] transition shadow"
+                  >
+                    Go to Volunteer Login
+                  </Link>
+                  <button
+                    onClick={() => {
+                      setSubmitted(false);
+                      setFormData({
+                        name: "",
+                        email: "",
+                        phone: "",
+                        age: "",
+                        city: "",
+                        occupation: "",
+                        interests: "Community Service",
+                        skills: "",
+                        reason: ""
+                      });
+                    }}
+                    className="rounded-xl border border-border bg-white px-7 py-3 text-xs font-bold text-[#0b2545] hover:bg-muted transition shadow-sm"
+                  >
+                    Submit Another Form
+                  </button>
+                </div>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">

@@ -14,7 +14,7 @@ const ROUTE_SEO = {
   },
   "/about": {
     title: "About Us | Hanish Charity Foundation - Mission, Vision & Dharma Protection",
-    description: "Learn about Hanish Charity Foundation's purpose, vision, transparent governance, lawful cultural protection, and grassroots community support network.",
+    description: "Learn about Hanish Charity Foundation's purpose, vision, transparent governance, humanitarian aid, healthcare, child education, and grassroots community support network.",
     keywords: "About Hanish Charity Foundation, Community Care & Protection, Hindu NGO India, Hindu Charitable Trust, Cultural Preservation",
   },
   "/programs": {

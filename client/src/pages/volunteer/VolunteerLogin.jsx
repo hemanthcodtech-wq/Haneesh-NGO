@@ -1,32 +1,98 @@
 import { useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
-import { motion } from "framer-motion"
-import { Eye, EyeOff, LogIn, UserPlus, ArrowRight, Heart, Shield, Users, ArrowLeft, HeartHandshake, Sparkles } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
+import { LogIn, ArrowRight, ArrowLeft, HeartHandshake, Mail, KeyRound, CheckCircle2, AlertCircle, RefreshCw, Sparkles } from "lucide-react"
 import { useApp } from "../../context/AppContext"
 import Logo from "../../components/Common/Logo"
+import API_BASE from "../../lib/api"
 
 export default function VolunteerLogin() {
-  const { volunteerLogin } = useApp()
+  const { volunteerLoginWithOtp } = useApp()
   const navigate = useNavigate()
 
-  const [loginForm, setLoginForm] = useState({ email: "", password: "" })
-  const [showPw, setShowPw] = useState(false)
-  const [loginError, setLoginError] = useState("")
-  const [loginLoading, setLoginLoading] = useState(false)
+  // State: step 1 = Enter Email, step 2 = Enter OTP
+  const [step, setStep] = useState(1)
+  const [email, setEmail] = useState("")
+  const [otp, setOtp] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [resending, setResending] = useState(false)
+  const [error, setError] = useState("")
+  const [infoMsg, setInfoMsg] = useState("")
 
-  const setLogin = (k) => (e) => setLoginForm((p) => ({ ...p, [k]: e.target.value }))
-
-  const handleSignIn = async (e) => {
+  // Step 1: Send OTP to registered volunteer email
+  const handleSendLoginOtp = async (e) => {
     e.preventDefault()
-    setLoginError("")
-    setLoginLoading(true)
-    const result = await volunteerLogin(loginForm.email, loginForm.password)
+    setError("")
+    setInfoMsg("")
+    if (!email) {
+      setError("Please enter your registered volunteer email.")
+      return
+    }
+
+    setLoading(true)
+    try {
+      const res = await fetch(`${API_BASE}/api/volunteers/login-send-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim() })
+      })
+      const data = await res.json()
+
+      if (data.success) {
+        setStep(2)
+        setInfoMsg(data.message || "A 6-digit OTP has been sent to your email.")
+      } else {
+        setError(data.message || "Failed to send OTP.")
+      }
+    } catch {
+      setError("Unable to reach the server. Please check your internet connection.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Step 2: Verify OTP and Login
+  const handleVerifyOtp = async (e) => {
+    e.preventDefault()
+    setError("")
+    setInfoMsg("")
+    if (!otp || otp.length < 6) {
+      setError("Please enter the complete 6-digit OTP sent to your email.")
+      return
+    }
+
+    setLoading(true)
+    const result = await volunteerLoginWithOtp(email.trim(), otp.trim())
     if (result.success) {
       navigate("/volunteer-portal")
     } else {
-      setLoginError(result.error || "Unable to sign in. Please verify your email and password.")
+      setError(result.error || "Invalid OTP. Please check and try again.")
     }
-    setLoginLoading(false)
+    setLoading(false)
+  }
+
+  // Resend OTP
+  const handleResendOtp = async () => {
+    setError("")
+    setInfoMsg("")
+    setResending(true)
+    try {
+      const res = await fetch(`${API_BASE}/api/volunteers/login-send-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim() })
+      })
+      const data = await res.json()
+      if (data.success) {
+        setInfoMsg("A fresh OTP has been sent to your email.")
+      } else {
+        setError(data.message || "Failed to resend OTP.")
+      }
+    } catch {
+      setError("Failed to resend OTP. Please try again.")
+    } finally {
+      setResending(false)
+    }
   }
 
   return (
@@ -73,66 +139,148 @@ export default function VolunteerLogin() {
             Volunteer Portal
           </h1>
           <p className="mt-1 text-xs text-[#fcd34d] font-bold tracking-wide">
-            Hanish Charity Foundation &bull; Sevak Network
+            Hanish Charity Foundation &bull; Secure OTP Login
           </p>
         </div>
 
         {/* Login Card */}
         <div className="overflow-hidden rounded-3xl border border-white/20 bg-white/95 p-6 sm:p-8 shadow-2xl backdrop-blur-xl">
-          <form onSubmit={handleSignIn} className="space-y-4">
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#0b2545] mb-2">
-                Registered Volunteer Email
-              </label>
-              <input
-                required
-                type="email"
-                value={loginForm.email}
-                onChange={setLogin("email")}
-                placeholder="your.email@example.com"
-                className="w-full rounded-xl border border-[#cbd5e1] bg-white px-4 py-3 text-sm font-semibold text-[#0b2545] placeholder:text-[#94a3b8] focus:border-[#e5a93c] focus:outline-none focus:ring-2 focus:ring-[#e5a93c]/20 transition"
-              />
+          
+          {/* Progress / Step indicator */}
+          <div className="mb-6 flex items-center justify-between border-b border-[#f1f5f9] pb-4">
+            <div className="flex items-center gap-2">
+              <span className={`grid size-6 place-items-center rounded-full text-xs font-black ${step === 1 ? "bg-[#0b2545] text-[#e5a93c]" : "bg-emerald-500 text-white"}`}>
+                {step === 1 ? "1" : "✓"}
+              </span>
+              <span className="text-xs font-bold text-[#0b2545]">
+                {step === 1 ? "Enter Registered Email" : "Email Verified"}
+              </span>
             </div>
+            <div className="flex items-center gap-2">
+              <span className={`grid size-6 place-items-center rounded-full text-xs font-black ${step === 2 ? "bg-[#0b2545] text-[#e5a93c]" : "bg-slate-200 text-slate-500"}`}>
+                2
+              </span>
+              <span className={`text-xs font-bold ${step === 2 ? "text-[#0b2545]" : "text-slate-400"}`}>
+                Enter OTP
+              </span>
+            </div>
+          </div>
 
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#0b2545] mb-2">
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  required
-                  type={showPw ? "text" : "password"}
-                  value={loginForm.password}
-                  onChange={setLogin("password")}
-                  placeholder="Enter your password"
-                  className="w-full rounded-xl border border-[#cbd5e1] bg-white px-4 py-3 pr-11 text-sm font-semibold text-[#0b2545] placeholder:text-[#94a3b8] focus:border-[#e5a93c] focus:outline-none focus:ring-2 focus:ring-[#e5a93c]/20 transition"
-                />
+          {/* Feedback Alerts */}
+          {error && (
+            <div className="mb-4 flex items-start gap-2 rounded-xl border border-rose-200 bg-rose-50 p-3 text-xs font-semibold text-rose-700">
+              <AlertCircle className="size-4 shrink-0 mt-0.5" />
+              <span>{error}</span>
+            </div>
+          )}
+
+          {infoMsg && (
+            <div className="mb-4 flex items-start gap-2 rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-xs font-semibold text-emerald-700">
+              <CheckCircle2 className="size-4 shrink-0 mt-0.5" />
+              <span>{infoMsg}</span>
+            </div>
+          )}
+
+          <AnimatePresence mode="wait">
+            {step === 1 ? (
+              // Step 1: Request OTP Form
+              <motion.form
+                key="step-email"
+                initial={{ opacity: 0, x: -12 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 12 }}
+                onSubmit={handleSendLoginOtp}
+                className="space-y-4"
+              >
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0b2545] mb-2">
+                    Registered Volunteer Email
+                  </label>
+                  <div className="relative">
+                    <Mail className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-[#94a3b8]" />
+                    <input
+                      required
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="your.email@example.com"
+                      className="w-full rounded-xl border border-[#cbd5e1] bg-white py-3 pl-10 pr-4 text-sm font-semibold text-[#0b2545] placeholder:text-[#94a3b8] focus:border-[#e5a93c] focus:outline-none focus:ring-2 focus:ring-[#e5a93c]/20 transition"
+                    />
+                  </div>
+                  <p className="mt-1.5 text-[11px] text-[#5a6e85]">
+                    We will send a 6-digit verification code to your email if your application is approved.
+                  </p>
+                </div>
+
                 <button
-                  type="button"
-                  onClick={() => setShowPw(v => !v)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#5a6e85] hover:text-[#0b2545] transition"
-                  aria-label={showPw ? "Hide password" : "Show password"}
+                  type="submit"
+                  disabled={loading}
+                  className="mt-6 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#d49528] via-[#e5a93c] to-[#f5b74c] px-6 py-3 text-sm font-black text-[#07162c] shadow-lg shadow-amber-950/20 transition hover:brightness-105 active:scale-98 disabled:opacity-60"
                 >
-                  {showPw ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                  <KeyRound className="size-4 stroke-[2.5]" />
+                  <span>{loading ? "Sending OTP Code..." : "Send Login OTP"}</span>
                 </button>
-              </div>
-            </div>
+              </motion.form>
+            ) : (
+              // Step 2: Verify OTP Form
+              <motion.form
+                key="step-otp"
+                initial={{ opacity: 0, x: 12 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -12 }}
+                onSubmit={handleVerifyOtp}
+                className="space-y-4"
+              >
+                <div className="rounded-xl border border-border bg-[#fafbff] p-3 text-xs text-muted-foreground">
+                  Sending verification code to: <strong className="text-[#0b2545]">{email}</strong>
+                  <button
+                    type="button"
+                    onClick={() => { setStep(1); setOtp(""); setError(""); setInfoMsg(""); }}
+                    className="ml-2 text-xs font-bold text-[#c8891f] underline"
+                  >
+                    Change
+                  </button>
+                </div>
 
-            {loginError && (
-              <div className="rounded-xl border border-rose-200 bg-rose-50 px-3.5 py-2.5 text-xs font-semibold text-rose-700">
-                {loginError}
-              </div>
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0b2545] mb-2">
+                    Enter 6-Digit Email OTP
+                  </label>
+                  <input
+                    required
+                    type="text"
+                    maxLength={6}
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, ""))}
+                    placeholder="123456"
+                    className="w-full text-center tracking-[0.4em] font-mono rounded-xl border border-[#cbd5e1] bg-white py-3 px-4 text-xl font-black text-[#0b2545] placeholder:tracking-normal placeholder:font-sans placeholder:text-sm placeholder:text-[#94a3b8] focus:border-[#e5a93c] focus:outline-none focus:ring-2 focus:ring-[#e5a93c]/20 transition"
+                  />
+                </div>
+
+                <div className="flex items-center justify-between pt-1">
+                  <span className="text-[11px] text-[#5a6e85]">Didn't receive the email code?</span>
+                  <button
+                    type="button"
+                    disabled={resending}
+                    onClick={handleResendOtp}
+                    className="inline-flex items-center gap-1 text-xs font-bold text-[#c8891f] hover:underline disabled:opacity-50"
+                  >
+                    <RefreshCw className={`size-3 ${resending ? "animate-spin" : ""}`} />
+                    <span>{resending ? "Resending..." : "Resend OTP"}</span>
+                  </button>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="mt-6 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#d49528] via-[#e5a93c] to-[#f5b74c] px-6 py-3 text-sm font-black text-[#07162c] shadow-lg shadow-amber-950/20 transition hover:brightness-105 active:scale-98 disabled:opacity-60"
+                >
+                  <LogIn className="size-4 stroke-[2.5]" />
+                  <span>{loading ? "Verifying OTP..." : "Verify & Access Portal"}</span>
+                </button>
+              </motion.form>
             )}
-
-            <button
-              type="submit"
-              disabled={loginLoading}
-              className="mt-6 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#d49528] via-[#e5a93c] to-[#f5b74c] px-6 py-3 text-sm font-black text-[#07162c] shadow-lg shadow-amber-950/20 transition hover:brightness-105 active:scale-98 disabled:opacity-60"
-            >
-              <LogIn className="size-4 stroke-[2.5]" />
-              <span>{loginLoading ? "Signing in..." : "Sign In to Portal"}</span>
-            </button>
-          </form>
+          </AnimatePresence>
 
           {/* New Volunteer Registration Box */}
           <div className="mt-6 pt-5 border-t border-[#f1f5f9]">
@@ -145,7 +293,7 @@ export default function VolunteerLogin() {
                 Join Hanish Charity Foundation to participate in community drives &amp; earn your certified ID card.
               </p>
               <Link
-                to="/volunteer"
+                to="/volunteer/register"
                 className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-[#0b2545] px-4 py-2 text-xs font-bold text-white transition hover:bg-[#133e87] active:scale-95 shadow-sm"
               >
                 <span>Register as a Volunteer</span>

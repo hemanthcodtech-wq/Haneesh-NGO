@@ -26,6 +26,7 @@ import {
   hero, 
   introduction, 
   missionVision, 
+  directors,
   focusAreas, 
   impactSection, 
   whyChooseUs, 
@@ -34,6 +35,7 @@ import {
   news
 } from "../data/content"
 import CampaignPopup from "../components/CampaignPopup"
+import BankAccountsSection from "../components/Common/BankAccountsSection"
 
 export default function Home() {
   const [selectedPillar, setSelectedPillar] = useState(0)
@@ -261,6 +263,80 @@ export default function Home() {
 
 
       {/* =========================================================================
+          SECTION 3B: FOUNDERS & LEADERSHIP - Nenavath Madan & Nenavath Swaroopa
+          ========================================================================= */}
+      <section className="py-16 sm:py-24 bg-[#fafbff] border-y border-[#e2e8f0]">
+        <div className="page-shell px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center max-w-3xl mx-auto mb-14">
+            <span className="inline-block text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#c8891f]">
+              Dedicated Leadership
+            </span>
+            <h2 className="mt-2 font-heading text-2xl font-extrabold text-[#0b2545] sm:text-4xl">
+              Meet Our Founders
+            </h2>
+            <p className="mt-3 text-xs leading-relaxed text-[#5a6e85] sm:text-base">
+              Guided by compassion, empathy and service to humanity, our founders lead every initiative with transparent and devoted commitment.
+            </p>
+          </div>
+
+          <div className="grid gap-8 md:grid-cols-2 max-w-5xl mx-auto">
+            {directors.map((dir) => (
+              <div
+                key={dir.name}
+                className="group relative overflow-hidden rounded-3xl border border-[#e2e8f0] bg-white p-6 sm:p-8 shadow-sm transition duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:border-[#e5a93c]"
+              >
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 mb-5">
+                  <div className="relative shrink-0">
+                    <img
+                      src={dir.image}
+                      alt={dir.name}
+                      className="size-28 sm:size-32 rounded-2xl object-cover object-top border-2 border-[#e5a93c]/30 shadow-md group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <span className="absolute -bottom-2 -right-2 grid size-8 place-items-center rounded-xl bg-[#0b2545] text-[#fcd34d] shadow-sm">
+                      <Award className="size-4" />
+                    </span>
+                  </div>
+                  <div className="text-center sm:text-left">
+                    <h3 className="font-heading text-2xl font-black text-[#0b2545]">
+                      {dir.name}
+                    </h3>
+                    <div className="mt-1.5 inline-flex items-center gap-1.5 rounded-full bg-[#fef7ea] px-3.5 py-1 text-xs font-black text-[#c8891f]">
+                      <Sparkles className="size-3" />
+                      <span>{dir.role}</span>
+                    </div>
+                    <div className="mt-2 text-xs font-semibold text-[#5a6e85]">
+                      Hanish Charity Foundation
+                    </div>
+                  </div>
+                </div>
+
+                <p className="text-xs leading-relaxed text-[#5a6e85] sm:text-sm sm:leading-7">
+                  {dir.bio}
+                </p>
+
+                <div className="mt-6 pt-5 border-t border-[#f1f5f9] flex items-center justify-between text-xs font-bold text-[#0b2545]">
+                  <span className="inline-flex items-center gap-1.5 text-[#0b2545]">
+                    <ShieldCheck className="size-4 text-[#c8891f]" />
+                    Verified Leadership
+                  </span>
+                  <Link
+                    to="/about"
+                    className="inline-flex items-center gap-1 text-xs font-black text-[#c8891f] hover:text-[#0b2545] transition-colors"
+                  >
+                    <span>Read Story</span>
+                    <ArrowRight className="size-3.5" />
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+
+      {/* =========================================================================
           SECTION 4: OUR FOCUS AREAS - 6 Key Pillars in a Refined Modern Card Grid
           ========================================================================= */}
       <section className="py-16 sm:py-24 bg-[#fafbff] border-y border-[#e2e8f0]">
@@ -444,6 +520,11 @@ export default function Home() {
                 <span>{homeCTA.secondaryBtn}</span>
               </Link>
             </div>
+          </div>
+
+          {/* Official Bank Account & QR Donation Details */}
+          <div className="mt-14">
+            <BankAccountsSection />
           </div>
 
         </div>

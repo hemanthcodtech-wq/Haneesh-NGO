@@ -6,8 +6,10 @@ import { useApp } from "../context/AppContext"
 const NAV_LINKS = [
   { label: "Home", to: "/" },
   { label: "About Us", to: "/about" },
-  { label: "Our Causes", to: "/programs" },
+  { label: "Our Causes", to: "/causes" },
+  { label: "Programs", to: "/programs" },
   { label: "Campaigns", to: "/campaigns" },
+  { label: "Testimonials", to: "/testimonials" },
   { label: "Donate", to: "/donate" },
   { label: "Volunteer", to: "/volunteer" },
   { label: "Gallery", to: "/gallery" },

@@ -385,13 +385,15 @@ export const news = [
 export const directors = [
   {
     name: "Nenavath Madan",
-    role: "Director & Founder",
+    role: "Founder & Director",
+    image: "/images/Founders/f1.png",
     bio: "Dedicated to driving transparent community welfare, educational scholarships, and emergency aid for vulnerable families across India.",
     icon: "award"
   },
   {
     name: "Nenavath Swaroopa",
-    role: "Director & Trustee",
+    role: "Co-Founder & Director",
+    image: "/images/Founders/f2.png",
     bio: "Leading women empowerment drives, healthcare initiatives, and child nutrition programs to ensure no family feels unsupported.",
     icon: "heart"
   }

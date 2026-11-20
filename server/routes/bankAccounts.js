@@ -47,9 +47,11 @@ router.post('/', upload.single('qr_code_image'), async (req, res) => {
       qrCodeUrl = req.file.path;
     }
 
+    const branchVal = branch || req.body.branch_name || null;
+
     const newBankAccount = await sql`
-      INSERT INTO bank_accounts (bank_name, account_name, account_number, ifsc_code, branch, qr_code_url, is_active)
-      VALUES (${bank_name}, ${account_name}, ${account_number}, ${ifsc_code}, ${branch || null}, ${qrCodeUrl}, ${is_active !== undefined ? is_active === 'true' || is_active === true : true})
+      INSERT INTO bank_accounts (bank_name, account_name, account_number, ifsc_code, branch, branch_name, qr_code_url, is_active)
+      VALUES (${bank_name}, ${account_name}, ${account_number}, ${ifsc_code}, ${branchVal}, ${branchVal}, ${qrCodeUrl}, ${is_active !== undefined ? is_active === 'true' || is_active === true : true})
       RETURNING *
     `;
 
@@ -65,6 +67,7 @@ router.put('/:id', upload.single('qr_code_image'), async (req, res) => {
   try {
     const { id } = req.params;
     const { bank_name, account_name, account_number, ifsc_code, branch, is_active } = req.body;
+    const branchVal = branch || req.body.branch_name || null;
 
     let updateQuery;
 
@@ -73,7 +76,8 @@ router.put('/:id', upload.single('qr_code_image'), async (req, res) => {
       updateQuery = sql`
         UPDATE bank_accounts
         SET bank_name = ${bank_name}, account_name = ${account_name}, account_number = ${account_number},
-            ifsc_code = ${ifsc_code}, branch = ${branch || null}, is_active = ${is_active === 'true' || is_active === true},
+            ifsc_code = ${ifsc_code}, branch = ${branchVal}, branch_name = ${branchVal},
+            is_active = ${is_active === 'true' || is_active === true},
             qr_code_url = ${qrCodeUrl}
         WHERE id = ${id}
         RETURNING *
@@ -82,7 +86,8 @@ router.put('/:id', upload.single('qr_code_image'), async (req, res) => {
       updateQuery = sql`
         UPDATE bank_accounts
         SET bank_name = ${bank_name}, account_name = ${account_name}, account_number = ${account_number},
-            ifsc_code = ${ifsc_code}, branch = ${branch || null}, is_active = ${is_active === 'true' || is_active === true}
+            ifsc_code = ${ifsc_code}, branch = ${branchVal}, branch_name = ${branchVal},
+            is_active = ${is_active === 'true' || is_active === true}
         WHERE id = ${id}
         RETURNING *
       `;

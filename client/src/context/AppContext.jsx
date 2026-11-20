@@ -194,6 +194,36 @@ export function AppProvider({ children }) {
     localStorage.removeItem('isAdminLoggedIn')
   }
 
+  const volunteerLoginWithOtp = async (email, otp) => {
+    try {
+      const response = await fetch(`${API_BASE}/api/volunteers/login-verify-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, otp })
+      })
+      const data = await response.json()
+      if (data.success && data.user) {
+        const volData = {
+          id: data.user.id,
+          name: data.user.name || "Volunteer",
+          email: data.user.email,
+          role: data.user.role || "Volunteer",
+          phone: data.user.phone,
+          city: data.user.city,
+          status: data.user.status,
+          appliedDate: data.user.appliedDate ? new Date(data.user.appliedDate).toISOString().slice(0, 10) : "N/A",
+          photo: data.user.photo
+        }
+        setLoggedInVolunteer(volData)
+        localStorage.setItem('loggedInVolunteer', JSON.stringify(volData))
+        return { success: true }
+      }
+      return { success: false, error: data.message || "Failed to verify OTP." }
+    } catch (error) {
+      return { success: false, error: "Network error. Please try again." }
+    }
+  }
+
   const volunteerLogin = async (email, password) => {
     try {
       const response = await fetch(`${API_BASE}/api/login`, {
@@ -274,7 +304,7 @@ export function AppProvider({ children }) {
       volunteerActivities, volunteerCampaigns, volunteerPrograms, volunteerCertificates,
       addDonor, updateVolunteerStatus, addVolunteer,
       addVolunteerUpdate, deleteVolunteerUpdate,
-      volunteerLogin, volunteerLogout,
+      volunteerLogin, volunteerLoginWithOtp, volunteerLogout,
       memberLogin, memberLogout,
       adminLogin, adminLogout, isAdminLoggedIn,
       addGalleryImg, removeGalleryImg,

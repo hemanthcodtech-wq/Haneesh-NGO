@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { useParams, Link } from "react-router-dom"
 import { motion } from "framer-motion"
 import { ArrowLeft, Target, Heart, ShieldCheck, Wallet, Upload } from "lucide-react"
+import BankAccountsSection from "../components/Common/BankAccountsSection"
 
 function loadRazorpay() {
   return new Promise((resolve) => {
@@ -219,6 +220,11 @@ export default function CampaignDetail() {
             </form>
           </motion.div>
         )}
+
+        {/* Bank Account & QR Donation Details */}
+        <div className="mt-12">
+          <BankAccountsSection />
+        </div>
       </section>
     </main>
   )

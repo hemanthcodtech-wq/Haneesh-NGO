@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { Heart, ShieldCheck, CheckCircle2, ArrowRight, Sparkles, CreditCard, Lock, HandHeart, Loader2, AlertCircle } from "lucide-react"
 import { donationTiers, focusAreas, foundationInfo } from "../data/content"
 import { heroContainerVariants, heroChildVariants, heroBadgeVariants } from "../components/Common/HeroAnimations"
+import BankAccountsSection from "../components/Common/BankAccountsSection"
 import API_BASE from "../lib/api"
 
 function loadRazorpayScript() {
@@ -501,6 +502,11 @@ export default function Donate() {
 
               </form>
             )}
+          </div>
+
+          {/* Admin Bank Accounts & QR Scanner Section */}
+          <div className="mt-12">
+            <BankAccountsSection />
           </div>
 
         </div>
