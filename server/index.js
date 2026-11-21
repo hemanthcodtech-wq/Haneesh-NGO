@@ -15,6 +15,8 @@ app.use(cors({
     "http://localhost:3000",
     "http://localhost:5173",
     "https://haneesh-ngo-nine.vercel.app",
+    "https://hanishcharityfoundation.in",
+    "https://www.hanishcharityfoundation.in",
     /\.vercel\.app$/
   ],
   credentials: true

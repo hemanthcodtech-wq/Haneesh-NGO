@@ -108,9 +108,11 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Visual Card with Real Imagery */}
+            {/* Right Visual Card with Founders Showcase & Real Imagery */}
             <div className="lg:col-span-5">
               <div className="group relative mx-auto max-w-md overflow-hidden rounded-3xl border-2 border-white/20 bg-gradient-to-b from-white/15 to-white/5 p-2.5 shadow-2xl backdrop-blur-md">
+                
+                {/* Hero Main Image */}
                 <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl">
                   <img
                     src={hero.image}
@@ -127,26 +129,44 @@ export default function Home() {
                   <span>Humanity First &bull; Compassion Always</span>
                 </div>
 
-                {/* Floating Bottom Action Banner */}
-                <div className="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/25 bg-white/95 p-3.5 text-[#0b2545] shadow-2xl backdrop-blur-md">
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-3">
-                      <div className="grid size-10 place-items-center rounded-xl bg-[#fef7ea] text-[#c8891f]">
-                        <HandHeart className="size-5" />
-                      </div>
-                      <div>
-                        <h4 className="text-xs font-black text-[#0b2545]">Every Small Act Counts</h4>
-                        <p className="text-[10px] text-[#5a6e85]">Join hands with our mission</p>
-                      </div>
-                    </div>
+                {/* Founders Showcase Floating Ribbon */}
+                <div className="mt-3 rounded-2xl border border-white/20 bg-[#07162c]/90 p-3.5 backdrop-blur-xl shadow-xl">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-2 mb-2.5">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-[#e5a93c]">
+                      Founders &amp; Leadership
+                    </span>
                     <Link
-                      to="/donate"
-                      className="rounded-xl bg-[#0b2545] px-3.5 py-2 text-[11px] font-bold text-[#fcd34d] transition hover:bg-[#133e87] active:scale-95 whitespace-nowrap"
+                      to="/about"
+                      className="text-[10px] font-bold text-white/80 hover:text-[#fcd34d] transition"
                     >
-                      Give Hope &rarr;
+                      About Us &rarr;
                     </Link>
                   </div>
+
+                  <div className="grid grid-cols-2 gap-2.5">
+                    {directors.map((dir) => (
+                      <div
+                        key={dir.name}
+                        className="flex items-center gap-2.5 rounded-xl border border-white/10 bg-white/5 p-2 transition hover:bg-white/10 hover:border-[#e5a93c]/50"
+                      >
+                        <img
+                          src={dir.image}
+                          alt={dir.name}
+                          className="size-11 shrink-0 rounded-xl object-cover object-top border border-[#e5a93c]/50 shadow-sm"
+                        />
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate text-xs font-extrabold text-white">
+                            {dir.name}
+                          </p>
+                          <p className="truncate text-[10px] font-semibold text-[#fcd34d]">
+                            {dir.role}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
+
               </div>
             </div>
 
